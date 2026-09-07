@@ -236,6 +236,12 @@ The convergence is independent — no coordination body, just multiple specs pic
 
 If you ship a spec or implementation in this cluster and want to be listed here, open an issue tagged `genesis-builders` on the [om-world repo](https://github.com/omworldprotocol/om-world/issues).
 
+### Buyer-side delivery attestation
+
+The instances above are authored by the executor: the party that ran the code attests to its own execution. The following is the complementary case, authored by the paying party instead.
+
+- [capacity-attest](https://github.com/holistis/tokenizen/tree/main/packages/capacity-attest) — a signed, content-addressed delivery claim where the buyer, not the executor, produces the attestation of what was promised and whether it was delivered. `claimId` (a sha256 hash of the canonical claim content) maps to this spec's `proof_id`; `settlementRef` maps to `settlement_reference`; `evidenceHash` maps to `output_hash`. The claim is EIP-191-signed over `claimId`, recovering to the buyer's own address, so it verifies without a separate verifier service. Two claims were published as EAS attestations on Base mainnet as a live, checkable example (schema `0x1dd19408345dee43b432b89ccb68760265ecff506098b6efe8ba82ad0d52b195`): [delivered=yes](https://base.easscan.org/attestation/view/0x81a55d54452b2cf8bdda7918f63a27bf9ff79e5025b485f7316aae6259288ccc) and [delivered=no](https://base.easscan.org/attestation/view/0xe736b005cbcb54f8f196ac64ef09d75d939c8a18c0d5d9670b5c5025c07398c4). `delivered` is the buyer's own assertion, not a measurement, and the format leaves checking that the referenced settlement actually happened on-chain to whoever consumes the claim.
+
 ## Contributors
 
 This spec was shaped by — see [CONTRIBUTORS.md](../CONTRIBUTORS.md#execution-proof) for current attribution:
